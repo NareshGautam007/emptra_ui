@@ -1,0 +1,1087 @@
+<?php 
+session_start();
+require_once "session_management.php";
+require_once "dbconnect.php";
+
+/*
+echo $employe_email = $_SESSION["useremail"];
+echo $employee_id= $_SESSION["employee_id"];
+
+die();*/
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Emptra Steps Form</title>
+
+	<!-- Required meta tags always come first -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+	<!-- Main Font -->
+
+<link rel="stylesheet" href="select2.min.css" />
+	<!-- Bootstrap CSS -->
+
+<link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap.css">
+	<!--------MODIFIED LINK-----SRT HERE--->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/12.1.2/css/intlTelInput.css'>
+<link rel='stylesheet' href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css'><link rel="stylesheet" href="./style.css">
+
+	<!--------MODIFIED LINK-----END HERE--->
+	<!-- Main Styles CSS -->
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/fonts.min.css">
+	<link rel="stylesheet" href="css/intlTelInput.css">
+    <link rel="stylesheet" href="css/demo.css">
+
+<style>
+.landing-content h1 {
+    margin: 5px 0;
+}
+.error {
+border: 1px solid red !important ;
+}
+
+.loader {
+display: none;
+width: 100%;
+height: 100%;
+position: fixed;
+text-align: center;
+z-index: 9999;
+overflow: auto;
+background: rgba(255, 255, 255, 0.6);
+}
+
+.loading-image {
+position: absolute;
+top: 50%;
+left: 50%;
+z-index: 10;
+}
+
+<!---------MODIFIED CSSS- START--->
+* {
+  box-sizing: border-box;
+}
+
+/*body {
+  background-color: #f1f1f1;
+}*/
+
+#regForm {
+  
+  margin: 20px auto;
+  font-family: Raleway;
+  padding: 5px;
+  width: 100%;
+  min-width: 300px;
+}
+
+h1 {
+  text-align: center;  
+}
+
+ 
+input {
+  position:relative;
+  top:0;
+  left:10px;
+  width: 100%;
+  margin-right:20px;
+  margin-bottom:20px;
+  font-size: 20px;
+  font-family: Raleway;
+  border: 1px solid #FFC312;
+  outline:none;
+
+}
+
+
+
+
+/* Mark input boxes that gets an error on validation: */
+/*.invalid {
+  background-color: #ffdddd;
+}*/
+
+/* Hide all steps by default: */
+.tab {
+  display: none;
+}
+
+button {
+  width:100px;
+ 
+  background-color:#ffa502;
+  border: none;
+  padding: 10px 20px;
+  font-size: 17px;
+  font-family: Raleway;
+  cursor: pointer;
+  border-radius:20px;
+  outline: none;
+  margin-bottom:16px;
+  
+}
+
+
+button:hover {
+  background-color:#273c75;
+   color:#ffa502;
+#prevBtn {
+  background-color: #bbbbbb;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbbbbb;
+  border: none;  
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  background-color: #4CAF50;
+}
+
+.col-md-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+    color: black;
+}
+    
+ button#signup {
+    margin-bottom: 21px;
+}
+
+<!---------MODIFIED CSSS END---->
+
+<!--------SELECT---------->
+
+
+/* Style the arrow inside the select element: */
+
+
+</style>
+</head>
+
+<body class="landing-page">
+
+<div class="loader">
+<center>
+<img class="loading-image" src="ajax-loader.gif" alt="loading..">
+</center>
+</div>
+
+<!-- ... end Preloader -->
+<div class="content-bg-wrap"></div>
+
+
+
+
+
+
+<!-- Header Standard Landing  -->
+<?php include_once 'header.php'; ?>
+
+
+<! end Header Standard Landing  -->
+<div class="header-spacer--standard"></div>
+
+<div class="container">
+	<div class="row">
+	<!--div class="col-xl-3">&nbsp;</div----->
+		<div class="col col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 offset-md-2 offset-lg-2">
+			
+    <div class="landing-content">
+			
+<div class="container tab" style="background-color:#fff;border-radius:40px;padding:35px;z-index:5; overflow: hidden;" >
+  	<h1 style="color:#000;position:relative;top:-5px;left:0;font-family:sans-serif;font-size:25px;">Your Employement History</h1>
+  	<hr style="width:39%; position:relative;top:-25px;left:0;border-width:2;color:gray;background-color:#af050e;">
+  	<section style="background-color:#fff;" >
+  	<div class="row">
+  	
+  	<div class="col-md-3">
+   <div class="form-group">
+    <select  name="company" id="title_place_empt"  style="padding:15px;margin-top:20px;margin-left:10px; border:1px solid #FFC312;">
+    <?php 
+    $dbQuery="SELECT * FROM employeer";
+    $dbResult=mysql_query($dbQuery);
+    
+    while($dbRow=mysql_fetch_array($dbResult)){ ?>
+    <option value="<?php echo $dbRow['employer_id']?>"> <?php echo $dbRow['company_name']  ?></option>
+    
+        
+    <?php }
+    
+    ?>
+    
+       
+    </select>
+  
+
+
+  </div>
+ 
+  <div class="row">
+  <div class="col-md-12">
+  <button type="button" class="btn" data-toggle="modal" data-target="#myModel" style="background-color:#05afa6; color:#2d3436;width:150px; position: relative;
+    top: -10px;
+    left: 16px;">
+  Add New Company</button>
+
+ </div>
+ </div>
+
+  	
+  </div>
+  	
+
+<div class="col-md-3">
+  		<div class="form-group">
+    
+    <input type="date" class="form-control" name ="period_time_from" placeholder="period_time_from" style="padding:10px; margin-top:20px;border: 1px solid #FFC312;">
+   
+</div>
+  </div>
+ <div class="col-md-3">
+ <div class="form-group ">
+    
+    <select class="design" name="currenty_working" style="padding:15px; margin-top:20px; border: 1px solid #FFC312;">
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+     
+      
+    </select>
+  </div>
+</div>
+  	
+<div class="col-md-3">
+<div class="form-group">
+    
+ <input type="date" class="form-control"  name="period_time_to" id="period_time_to" aria-describedby="emailHelp" placeholder="period_time_to" style="padding:10px;margin-top:20px;margin-left:-20px; border: 1px solid #FFC312;">
+   
+</div>
+  </div>
+   	</div>
+  	</section>
+  	
+  	<div class="row">
+  	<div class="col-md-12">
+<div class="form-group">
+<textarea class="form-control" name="description_emp" id="editor1" placeholder="Description"> </textarea>
+
+  	</div>
+  	</div>
+	</div>
+					
+</div>
+
+<!--MODIFIED HTML START---->
+<form id="regForm" action="skillsForms.php" method="post">
+
+<div class="container tab " style="background-color:#fff; border-radius:40px;padding:35px;z-index:5;">
+  <h1 style="color:#000;position:relative;top:-5px;left:0;font-family:sans-serif;font-size:25px;">Basic Skillset</h1>
+  <hr style="width:21%; position:relative;top:-25px;left:0;border-width:2;color:gray;background-color:#af050e;">
+
+  <div class="row">
+ <div class="col-md-4">
+ <label class="control-label" style="color:#000; font-size: 15px; font-family :sans-serif; position:relative; top:20px; ">Computer Skills</label>
+
+<input type="range" name="computer_skills" min="0" max="10" data-rangeSlider title="Computer Skills" >
+<output style="font-size:30px; color:#ffa801; position:relative; top:-40px; left:100px;"></output>
+</div>
+<div class="col-md-4">
+
+<label class="control-label" style="color:#000; font-size: 15px;
+    font-family: sans-serif; position:relative; top:20px;" >MS Office</label>
+<input type="range" name="ms_office" min="0" max="10" data-rangeSlider title="MS Office" style="color:#ffa801;">
+<output style="font-size:30px; color:#ffa801; position:relative; top:-40px; left:100px; "></output>
+</div>
+<div class="col-md-4">
+<label class="control-label"style="color:#000;font-size: 15px;
+    font-family: sans-serif; position:relative; top:20px;">Basic Designing</label>
+<input type="range" name="basic_designing" min="0" max="10" data-rangeSlider title="Basic Designing">
+<output style="font-size:30px; color:#ffa801;position:relative; top:-40px; left:100px;"></output>
+ </div>
+ </div>
+ 
+<div class="row">
+<div class="col-md-4">
+<label class="control-label" style="color:#000;font-size: 15px;
+    font-family: sans-serif; position:relative; top:20px;">Basic Accounting</label>
+<input type="range" name="basic_accounting" min="0" max="10" data-rangeSlider title="Basic Accounting">
+<output style="font-size:30px; color:#ffa801 ;position:relative; top:-40px; left:100px; "></output>
+</div>
+<div class="col-md-4">
+<label class="control-label" style="color:#000;font-size: 15px;
+    font-family: sans-serif;position:relative; top:20px; ">Communication Skills Hindi</label>
+<input type="range" name="communication_skills_hindi" min="0" max="10" data-rangeSlider title="Communication Skills Hindi">
+<output style="font-size:30px; color:#ffa801; position:relative; top:-40px; left:100px;" ></output>
+</div>
+<div class="col-md-4">
+<label class="control-label" style="color:#000;font-size: 15px;
+    font-family: sans-serif;position:relative; top:20px; ">Communication Skills English</label>
+<input type="range" name="communication_skills_english" min="0" max="10" data-rangeSlider title="Communication Skills English">
+<output style="font-size:30px; color:#ffa801 ;position:relative; top:-40px; left:100px; "></output>
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-md-4">
+<label class="control-label" style="color:#000;font-size: 15px;
+    font-family: sans-serif; position:relative; top:20px;">Writing Skills English</label>
+    
+<input type="range" name="writing_skills_english" min="0" max="10" data-rangeSlider title="Writing Skills English">
+<output style="font-size:30px; color:#ffa801 ;position:relative; top:-40px; left:100px;"></output>
+</div>
+
+<div class="col-md-4">
+<label class="control-label" style="color:#000;font-size: 15px;
+    font-family: sans-serif;position:relative; top:20px; ">Writing Skills Hindi</label>
+<input type="range" name="writing_skills_hindi" min="0" max="10" data-rangeSlider title="Writing Skills Hindi">
+<output style="font-size:30px; color:#ffa801 ;position:relative; top:-40px; left:100px; "></output>
+</div>
+
+</div>
+
+</div>
+
+      <from mehod="post" id="nextForm">
+  <div class="container tab" style="background-color:#fff;border-radius:40px;padding:35px;z-index:5; overflow: hidden;" >
+  	<h1 style="color:#000;position:relative;top:-5px;left:0;font-family:sans-serif;font-size:25px;">Your Employement History</h1>
+  	<hr style="width:39%; position:relative;top:-25px;left:0;border-width:2;color:gray;background-color:#af050e;">
+  	<section style="background-color:#fff;" >
+  	<div class="row">
+  	
+  	<div class="col-md-3">
+   <div class="form-group">
+    <select  name="company" id="title_place_empt"  style="padding:15px;margin-top:20px;margin-left:10px; border:1px solid #FFC312;">
+    <?php 
+    $dbQuery="SELECT * FROM employeer";
+    $dbResult=mysql_query($dbQuery);
+    
+    while($dbRow=mysql_fetch_array($dbResult)){ ?>
+    <option value="<?php echo $dbRow['employer_id']?>"> <?php echo $dbRow['company_name']  ?></option>
+    
+        
+    <?php }
+    
+    ?>
+    
+       
+    </select>
+  
+
+
+  </div>
+ 
+  <div class="row">
+  <div class="col-md-12">
+  <button type="button" class="btn" data-toggle="modal" data-target="#myModel" style="background-color:#05afa6; color:#2d3436;width:150px; position: relative;
+    top: -10px;
+    left: 16px;">
+  Add New Company</button>
+
+ </div>
+ </div>
+
+  	
+  </div>
+  	
+
+<div class="col-md-3">
+  		<div class="form-group">
+    
+    <input type="date" class="form-control" name ="period_time_from" placeholder="period_time_from" style="padding:10px; margin-top:20px;border: 1px solid #FFC312;">
+   
+</div>
+  </div>
+ <div class="col-md-3">
+ <div class="form-group ">
+    
+    <select class="design" name="currenty_working" style="padding:15px; margin-top:20px; border: 1px solid #FFC312;">
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+     
+      
+    </select>
+  </div>
+</div>
+  	
+<div class="col-md-3">
+<div class="form-group">
+    
+ <input type="date" class="form-control"  name="period_time_to" id="period_time_to" aria-describedby="emailHelp" placeholder="period_time_to" style="padding:10px;margin-top:20px;margin-left:-20px; border: 1px solid #FFC312;">
+   
+</div>
+  </div>
+   	</div>
+  	</section>
+  	
+  	<div class="row">
+  	<div class="col-md-12">
+<div class="form-group">
+<textarea class="form-control" name="description_emp" id="editor1" placeholder="Description"> </textarea>
+
+  	</div>
+  	</div>
+	</div>
+</div>
+<button type="submit"> Send </button>
+</form>
+
+
+
+<!------selct your industry--------->
+<div class="container tab" style="background-color:#fff;color:#000;padding:50px;">
+<p style="color:#000;position:relative;top:-10px;left:100px;font-family:sans-serif;font-size:35px;">Choose Your Industry</p>
+<div class="row">
+<div class="col-md-12" >
+    
+<select name="industry" class="form-control" style="background-color:#fff;">
+
+<option value="10">Select Industry</option>
+<?php
+$SQL= "SELECT * FROM employee_industry_skills";
+$industry_query=mysql_query($SQL);
+if(!$industry_query);
+while($industry_row=mysql_fetch_array($industry_query)){?>
+    <option value="<?php echo $employee_id; ?>"><?php echo $industry_row["industry"]; ?></option>
+    
+<?php } ?>
+</select>
+</div>
+</div>
+</div>
+<!-- Education History Form -->
+
+  <div class="container tab" style="background-color:#fff; padding:40px;border-radius:50px;">
+  <h1 style="color:#000;position:relative;top:-20px;left:0;font-family:sans-serif;font-size:25px;">Your Education History</h1>
+  <hr style="width:36%; position:relative;top:-39px;left:0;border-width:2;color:gray;background-color:#af050e;">
+  <div class="row">
+  <div class="col-md-6">
+  
+  
+   <input type="text"  class="form-control" name="education_title" placeholder="Title or Place" style="padding:15px;border: 1px solid #FFC312;">
+  
+  </div>
+  
+<div class="col-md-6">
+ <div class="form-group">
+    
+  <input type="date" class="form-control" name="education_period" placeholder=" Period of Time" style="padding:15px; border: 1px solid #FFC312;">
+  </div>
+  </div>
+ </div>
+
+ <div class="row">
+ <div class="col-md-12">
+  <div class="form-group">
+    
+ <textarea class="form-control"  name="education_desc" id="exampleFormControlTextarea1" rows="3"style="position:relative;top:0;left:10px; border: 1px solid #FFC312;"></textarea>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+  <div style="overflow:auto;">
+    <div style="float:right;">
+      <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+      <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+    </div>
+  </div>
+  <!-- Circles which indicates the steps of the form: -->
+  <div style="text-align:center;margin-top:40px;">
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step"></span>
+    
+  </div>
+</form>
+
+<div class="modal fade" id="myModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="color:#FFC312">Update New Company</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color:#fff;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="message"></div>
+        <form class="form-inline" method="post" id="leadform">
+
+        <div class="form-group">
+       
+        <input type="text" class="form-control" name="company_name" placeholder="Company Name" style="width:250px; color:#000;padding:10px;">
+      
+      </div>
+      
+        <button title="" class="button readmore" type="submit"  id="signup">Submit</button>
+        </form><br/>
+      <div id="companydata"></div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<script>
+var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  //... and fix the Previous/Next buttons:
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").innerHTML = "Submit";
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  //... and run a function that will display the correct step indicator:
+  fixStepIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form...
+  if (currentTab >= x.length) {
+    // ... the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class on the current step:
+  x[n].className += " active";
+}
+</script>
+
+
+
+<script src="range-slider.js"></script>
+<script>
+  (function () {
+
+    var selector = '[data-rangeSlider]',
+      elements = document.querySelectorAll(selector);
+
+    // Example functionality to demonstrate a value feedback
+    function valueOutput(element) {
+      var value = element.value,
+        output = element.parentNode.getElementsByTagName('output')[0];
+      output.innerHTML = value;
+    }
+
+    for (var i = elements.length - 1; i >= 0; i--) {
+      valueOutput(elements[i]);
+    }
+
+    Array.prototype.slice.call(document.querySelectorAll('input[type="range"]')).forEach(function (el) {
+      el.addEventListener('input', function (e) {
+        valueOutput(e.target);
+      }, false);
+    });
+
+
+    // Example functionality to demonstrate disabled functionality
+    var toggleBtnDisable = document.querySelector('#js-example-disabled button[data-behaviour="toggle"]');
+    toggleBtnDisable.addEventListener('click', function (e) {
+      var inputRange = toggleBtnDisable.parentNode.querySelector('input[type="range"]');
+      console.log(inputRange);
+      if (inputRange.disabled) {
+        inputRange.disabled = false;
+      }
+      else {
+        inputRange.disabled = true;
+      }
+      inputRange.rangeSlider.update();
+    }, false);
+
+    // Example functionality to demonstrate programmatic value changes
+    var changeValBtn = document.querySelector('#js-example-change-value button');
+    changeValBtn.addEventListener('click', function (e) {
+      var inputRange = changeValBtn.parentNode.querySelector('input[type="range"]'),
+        value = changeValBtn.parentNode.querySelector('input[type="number"]').value,
+        event = document.createEvent('Event');
+
+      event.initEvent('change', true, true);
+
+      inputRange.value = value;
+      inputRange.dispatchEvent(event);
+    }, false);
+
+    // Example functionality to demonstrate programmatic buffer set
+    var stBufferBtn = document.querySelector('#js-example-buffer-set button');
+    stBufferBtn.addEventListener('click', function (e) {
+      var inputRange = stBufferBtn.parentNode.querySelector('input[type="range"]'),
+        value = stBufferBtn.parentNode.querySelector('input[type="number"]').value;
+
+      inputRange.rangeSlider.update({buffer: value});
+    }, false);
+
+    // Example functionality to demonstrate destroy functionality
+    var destroyBtn = document.querySelector('#js-example-destroy button[data-behaviour="destroy"]');
+    destroyBtn.addEventListener('click', function (e) {
+      var inputRange = destroyBtn.parentNode.querySelector('input[type="range"]');
+      console.log(inputRange);
+      inputRange.rangeSlider.destroy();
+    }, false);
+
+    var initBtn = document.querySelector('#js-example-destroy button[data-behaviour="initialize"]');
+
+    initBtn.addEventListener('click', function (e) {
+      var inputRange = initBtn.parentNode.querySelector('input[type="range"]');
+      rangeSlider.create(inputRange, {});
+    }, false);
+
+    //update range
+    var updateBtn1 = document.querySelector('#js-example-update-range button');
+    updateBtn1.addEventListener('click', function (e) {
+      var inputRange = updateBtn1.parentNode.querySelector('input[type="range"]');
+      inputRange.rangeSlider.update({min: 0, max: 20, step: 0.5, value: 1.5, buffer: 70});
+    }, false);
+
+
+    var toggleBtn = document.querySelector('#js-example-hidden button[data-behaviour="toggle"]');
+    toggleBtn.addEventListener('click', function (e) {
+      var container = e.target.previousElementSibling;
+      if (container.style.cssText.match(/display[\s:]{1,3}none/)) {
+        container.style.cssText = '';
+      } else {
+        container.style.cssText = 'display: none;';
+      }
+    }, false);
+
+    // Basic rangeSlider initialization
+    rangeSlider.create(elements, {
+
+      // Callback function
+      onInit: function () {
+      },
+
+      // Callback function
+      onSlideStart: function (value, percent, position) {
+        console.info('onSlideStart', 'value: ' + value, 'percent: ' + percent, 'position: ' + position);
+      },
+
+      // Callback function
+      onSlide: function (value, percent, position) {
+        console.log('onSlide', 'value: ' + value, 'percent: ' + percent, 'position: ' + position);
+      },
+
+      // Callback function
+      onSlideEnd: function (value, percent, position) {
+        console.warn('onSlideEnd', 'value: ' + value, 'percent: ' + percent, 'position: ' + position);
+      }
+    });
+
+    rangeSlider.create(document.querySelector('#vertical'), {
+      vertical: true
+    });
+
+  })();
+</script>
+
+
+ <!--------modified js--->
+
+ <!--modified js end here--->
+
+<!-- JS Scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="js/libs/jquery.appear.js"></script>
+<script src="js/libs/jquery.mousewheel.js"></script>
+<script src="js/libs/perfect-scrollbar.js"></script>
+<script src="js/libs/svgxuse.js"></script>
+<script src="js/libs/imagesloaded.pkgd.js"></script>
+<script src="js/libs/Headroom.js"></script>
+<script src="js/libs/popper.min.js"></script>
+<script src="js/libs/material.min.js"></script>
+<script src="js/libs/bootstrap-select.js"></script>
+<script src="js/libs/smooth-scroll.js"></script>
+<script src="js/libs/selectize.js"></script>
+<script src="js/libs/swiper.jquery.js"></script>
+<script src="js/libs/moment.js"></script>
+<script src="js/libs/daterangepicker.js"></script>
+<script src="js/libs/isotope.pkgd.js"></script>
+<script src="js/libs/ajax-pagination.js"></script>
+<script src="js/libs/jquery.magnific-popup.js"></script>
+<script src="js/libs/aos.js"></script>
+<script src="js/libs/purecounter_vanilla.js"></script>
+
+<script src="js/main.js"></script>
+<script src="js/libs-init/libs-init.js"></script>
+<script defer src="fonts/fontawesome-all.js"></script>
+
+<script src="Bootstrap/dist/js/bootstrap.bundle.js"></script>
+<!----chart file------>
+<script src="js/libs/Chart.js"></script>
+<script src="js/libs/chartjs-plugin-deferred.js"></script>
+<script src="js/libs/circle-progress.js"></script>
+<script src="js/libs/loader.js"></script>
+<script src="js/libs/run-chart.js"></script>
+<!-- SVG icons loader -->
+<script src="js/svg-loader.js"></script>
+<!-- /SVG icons loader -->
+
+
+<script src="js/intlTelInput.js"></script>
+  <!--<script>
+    var input = document.querySelector("#phone");
+    window.intlTelInput(input, {
+      // allowDropdown: false,
+      // autoHideDialCode: false,
+      // autoPlaceholder: "off",
+      // dropdownContainer: document.body,
+      // excludeCountries: ["us"],
+      // formatOnDisplay: false,
+      // geoIpLookup: function(callback) {
+      //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+      //     var countryCode = (resp && resp.country) ? resp.country : "";
+      //     callback(countryCode);
+      //   });
+      // },
+      // hiddenInput: "full_number",
+      // initialCountry: "auto",
+      // localizedCountries: { 'de': 'Deutschland' },
+      // nationalMode: false,
+      // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+      // placeholderNumberType: "MOBILE",
+      // preferredCountries: ['cn', 'jp'],
+      // separateDialCode: true,
+      utilsScript: "js/utils.js",
+    });
+	 
+  </script>-->
+
+
+<script src="select2.min.js"></script>
+<script>
+$("#company").select2( {
+	placeholder: "Select Company",
+	allowClear: true
+	} );
+	$("#industry").select2( {
+	placeholder: "Select Industry",
+	allowClear: true
+	} );
+
+$(document).ready(function(){
+
+ 
+$('#customersub').click(function(){
+ 
+var yname = $('#yname').val();
+var phone_no = $('#phone_no').val();
+var contact_person = $('#contact_person').val();
+var password = $('#password').val();
+var email = $('#email').val();
+
+ 
+
+if( yname.length == ''){
+$('#yname').addClass('error');
+alert("Enter Your Full Name");
+$( "#yname" ).focus();
+return false;
+}
+else{
+$('#yname').removeClass('error');
+}
+ 
+if( phone_no.length == '' ||  !/^\d{10}$/.test(phone_no) ){
+$('#phone_no').addClass('error');
+alert("Enter Valid 10 Digit Mobile ex. 9898989898");
+$( "#phone_no" ).focus();
+return false;
+}
+else{
+$('#phone_no').removeClass('error');
+$('em').remove();
+}
+
+if( email.length == '' ||  !/^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/.test(email) ){
+$('#email').addClass('error');
+alert("Enter Valid Email ID ex. info@yourdomain.com");
+$( "#email" ).focus();
+return false;
+}
+else{
+$('#email').removeClass('error');
+$('em').remove();
+}	
+
+if( password.length == ''){
+$('#password').addClass('error');
+alert("Enter Password");
+$( "#password" ).focus();
+return false;
+}
+else{
+$('#password').removeClass('error');
+}
+
+});
+
+
+// to prevent refreshing the whole page page
+
+return false;
+
+
+
+});
+
+
+$(document).ready(function(e){
+		$("#customerform").on('submit', function(e){
+		e.preventDefault();
+			
+			$.ajax({
+				type: 'POST',
+				url: 'submit_employee.php',
+				data: new FormData(this),
+				contentType: false,
+				cache: false,
+				processData:false,
+				beforeSend: function(){
+			     	$('.loader').show();
+					$('#customersub').attr("disabled","disabled");
+					$('#customerform').css("opacity",".5");
+				},
+				
+				 complete: function(){
+
+       $('.loader').hide();
+	   $('#customerform')[0].reset(); 
+	   $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Partner added successfully.</span>');
+},
+			success: function(msg){ $('#formmeaages').html(msg);
+				
+					
+					
+					$('#customerform').css("opacity","0.5");
+					$("#customersub").removeAttr("disabled");
+				}
+				
+				
+
+			});
+			
+			
+		});
+		});	
+	
+</script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+ $( function() {
+    $( "#period_time1_from" ).datepicker({
+	yearRange: '1980:2021',
+	dateFormat: 'yy-mm-dd',
+    changeMonth: true,
+    changeYear: true,
+    inline: true,
+	 })
+	 
+  });
+  
+   $( function() {
+    $( "#period_time1_to" ).datepicker({
+	yearRange: '1980:2021',
+	dateFormat: 'yy-mm-dd',
+    changeMonth: true,
+    changeYear: true,
+    inline: true,
+	 })
+	 
+  });
+  
+   $( function() {
+    $( "#period_time2_from" ).datepicker({
+	yearRange: '1980:2021',
+	dateFormat: 'yy-mm-dd',
+    changeMonth: true,
+    changeYear: true,
+    inline: true,
+	 })
+	 
+  });
+  
+   $( function() {
+    $( "#period_time2_to" ).datepicker({
+	yearRange: '1980:2021',
+	dateFormat: 'yy-mm-dd',
+    changeMonth: true,
+    changeYear: true,
+    inline: true,
+	 })
+	 
+  });
+  
+  $( function() {
+    $( "#period_time3_from" ).datepicker({
+	yearRange: '1980:2021',
+	dateFormat: 'yy-mm-dd',
+    changeMonth: true,
+    changeYear: true,
+    inline: true,
+	 })
+	 
+  });
+  
+   $( function() {
+    $( "#period_time3_to" ).datepicker({
+	yearRange: '1980:2021',
+	dateFormat: 'yy-mm-dd',
+    changeMonth: true,
+    changeYear: true,
+    inline: true,
+	 })
+	 
+  });
+  
+  </script>
+  
+  <script>
+
+$(document).ready(function(){
+
+
+$('#signup').click(function(){
+    
+var company_name = $('#company_name').val();
+if( company_name.length == ''){
+$('#company_name').addClass('error');
+alert("Please Enter Company  name");
+$( "#company_name" ).focus();
+return false;
+}
+else{
+$('#company_name').removeClass('error');
+$('pre').remove();
+}
+});
+
+$('#leadform').submit(function(){
+$('#response').html("<div class='loader'><center><img class='loading-image' src='ajax-loader.gif' alt='loading..'></center></div>");
+$.ajax({
+type: 'POST',
+url: 'upload_company.php',
+data: $(this).serialize(),
+beforeSend: function(){
+$('.loader').show();
+},
+complete: function(){
+$('.loader').hide();
+} })
+.done(function(data){ // if getting done then call.
+$('#companydata').html(data);
+document.getElementById("companydata").style.diplay="block";
+
+	 setTimeout(function(){
+     location.reload(true); }, 1000);
+     //e.preventDefault();
+     
+})
+.fail(function() { // if fail then getting message
+alert( "Posting failed." );
+});
+return false;
+}); });
+
+
+</script>
+
+<script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
+<script>
+CKEDITOR.replace( 'editor1' );
+</script>
+
+ <script type="text/javascript">
+	$('#myModel').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-title').text('Add New Company')
+  modal.find('.modal-body input').val(recipient)
+})
+</script>
+
+
+</body>
+</html>
